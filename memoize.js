@@ -32,12 +32,46 @@ const memoize = (fun) => {
 const efficient = memoize(calc);
 // first execution
 console.time();
-console.log(efficient(10100));
-console.log(efficient(10900));
+console.log(efficient(11110));
+console.log(efficient(11111));
+console.log(efficient(11112));
 console.timeEnd();
 
 // second execution
 console.time();
-console.log(efficient(10100));
-console.log(efficient(10900));
+console.log(efficient(11112));
+console.log(efficient(11111));
+console.log(efficient(11110));
 console.timeEnd();
+
+
+
+
+function fibonacciWithMemoization() {
+  const cache = {}; // in lexical scope & will retain its value
+
+  return function memoizedFibonacci(n) {
+    if (n <= 1) {
+      return n;
+    }
+
+    // Check if the result is already cached
+    if (cache[n] !== undefined) {
+      return cache[n];
+    }
+    
+    // Calculate the result and store it in the cache
+    cache[n] = memoizedFibonacci(n - 1) + memoizedFibonacci(n - 2);
+    console.log(n, cache[n]);
+    if(n ==15){
+        console.log(cache);
+    }
+    return cache[n];
+  };
+}
+
+const memoizedFibonacci = fibonacciWithMemoization();
+
+console.log(memoizedFibonacci(15)); // Output: 610
+console.log(memoizedFibonacci(5)); // Output: 5
+console.log(memoizedFibonacci(10)); // Output: 55
